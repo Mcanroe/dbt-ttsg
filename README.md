@@ -1,0 +1,1 @@
+Sample dbt project to showcase dbt features.
