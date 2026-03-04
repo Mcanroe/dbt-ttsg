@@ -1,0 +1,68 @@
+models:
+  - name: stg_patients
+    description: Cleans and standardises patient demographic data from the raw layer.
+    columns:
+      - name: patient_id
+        description: Unique identifier for each patient.
+        tests:
+          - unique
+          - not_null
+      - name: date_of_birth
+        description: Patient's date of birth.
+      - name: sex
+        description: Patient's sex (standardised to Male, Female, or Indeterminate).
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female', 'Indeterminate']
+      - name: ethnicity
+        description: Patient's ethnicity code.
+      - name: postcode
+        description: Patient's postcode.
+
+  - name: stg_spells
+    description: Cleans and standardises hospital spell data from the raw layer.
+    columns:
+      - name: spell_id
+        description: Unique identifier for each hospital spell (episode).
+        tests:
+          - unique
+          - not_null
+      - name: patient_id
+        description: Foreign key reference to the patient.
+        tests:
+          - not_null
+      - name: admission_date
+        description: Date the patient was admitted to hospital.
+      - name: discharge_date
+        description: Date the patient was discharged from hospital.
+
+  - name: stg_diagnoses
+    description: Cleans and standardises diagnosis data from the raw layer.
+    columns:
+      - name: spell_id
+        description: Foreign key reference to the hospital spell.
+      - name: diagnosis_code
+        description: Clinical diagnosis code (e.g., ICD-10).
+      - name: diagnosis_description
+        description: Human readable description of the diagnosis.
+
+  - name: stg_procedures
+    description: Cleans and standardises procedure data from the raw layer.
+    columns:
+      - name: spell_id
+        description: Foreign key reference to the hospital spell.
+      - name: procedure_code
+        description: Clinical procedure code (e.g., OPCS-4).
+      - name: procedure_description
+        description: Human-readable description of the procedure.
+
+  - name: stg_groupers
+    description: Cleans and standardises HRG grouper data from the raw layer.
+    columns:
+      - name: spell_id
+        description: Foreign key reference to the hospital spell.
+      - name: hrg_code
+        description: Healthcare Resource Group code for cost calculation.
+      - name: hrg_description
+        description: Human readable description of the HRG code.

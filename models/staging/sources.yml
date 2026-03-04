@@ -1,0 +1,16 @@
+sources:
+  - name: ttsg
+    description: Raw TTSG hospital data loaded from the source system.
+    schema: RAW
+    tables:
+      - name: raw_patients
+        description: Raw patient demographic data.
+
+      - name: raw_spells
+        description: Raw hospital spell (episode) data.
+
+      - name: raw_diagnoses
+        description: Raw diagnosis codes for hospital spells.
+
+      - name: raw_procedures
+        description: Raw procedure codes for hospital spells.

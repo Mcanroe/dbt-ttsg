@@ -1,0 +1,57 @@
+models:
+  - name: dim_patients
+    description: Patient dimension table with demographic data and age at first admission.
+    columns:
+      - name: patient_id
+        description: Unique identifier for each patient.
+        tests:
+          - unique
+          - not_null
+      - name: date_of_birth
+        description: Patient's date of birth.
+        tests:
+          - not_null
+      - name: age_at_first_admission
+        description: Patient's age at their first hospital admission.
+      - name: sex
+        description: Patient's sex.
+      - name: ethnicity
+        description: Patient's ethnicity.
+      - name: postcode
+        description: Patient's postcode.
+
+  - name: fct_spells
+    description: Fact table for hospital spells with patient demographics and aggregated clinical data.
+    tests:
+      - is_after_or_equal:
+          column_name: discharge_date
+          arguments:
+            compare_to_column: admission_date
+    columns:
+      - name: spell_id
+        description: Unique identifier for each hospital spell.
+        tests:
+          - unique
+          - not_null
+      - name: patient_id
+        description: Foreign key to dim_patients.
+        tests:
+          - not_null
+      - name: date_of_birth
+        description: Patient's date of birth.
+      - name: age_at_admission
+        description: Patient's age at admission.
+      - name: admission_date
+        description: Date of hospital admission.
+        tests:
+          - not_null
+      - name: discharge_date
+        description: Date of hospital discharge.
+      - name: length_of_stay_days
+        description: Number of days between admission and discharge.
+      - name: diagnosis_count
+        description: Count of diagnoses for this spell.
+      - name: procedure_count
+        description: Count of procedures for this spell.
+      - name: hrg_code
+        description: Healthcare Resource Group code.
